@@ -57,7 +57,7 @@ Thumbs.db
         
         // 1. Feature-Audio
         RunGit(rootDir, "checkout -B Feature-Audio");
-        RunGit(rootDir, "add Assets/Audio\\ Clips Assets/Scripts/AudioManager.cs Assets/Scripts/Editor/AudioGenerator.cs");
+        RunGit(rootDir, "add \"Assets/Audio Clips\" Assets/Scripts/AudioManager.cs Assets/Scripts/Editor/AudioGenerator.cs");
         RunGit(rootDir, "commit -m \"Implement Feature-Audio: 11 audio clips and AudioManager with intro transition\"");
 
         // 2. Feature-Visual
