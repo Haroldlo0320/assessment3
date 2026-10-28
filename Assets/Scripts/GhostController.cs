@@ -2,10 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// GhostController handles the 4 distinct ghost AI routines and state transitions:
+/// Ghost 1 (Blinky): Wanders maze / chases PacStudent when close
+/// Ghost 2 (Pinky): Chases PacStudent directly
+/// Ghost 3 (Inky): Wanders randomly through valid paths
+/// Ghost 4 (Clyde): Patrols corners in a clockwise pattern
+/// States: Normal, Scared (fleeing), Recovering (flashing), Dead (returning to base)
+/// </summary>
 public class GhostController : MonoBehaviour
 {
     public enum GhostState { Normal, Scared, Recovering, Dead }
 
+    [Header("Ghost Configuration")]
+    [Tooltip("Ghost 1: Blinky, Ghost 2: Pinky, Ghost 3: Inky, Ghost 4: Clyde")]
     [SerializeField] public int ghostId = 1;
     [SerializeField] public float baseSpeed = 3.6f;
     [SerializeField] public Vector3 homeSpawnPos;
