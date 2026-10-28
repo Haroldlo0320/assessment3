@@ -5,14 +5,12 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("Audio Clips")]
     [SerializeField] private AudioClip introMusic;
     [SerializeField] private AudioClip startSceneMusic;
     [SerializeField] private AudioClip ghostsNormalMusic;
     [SerializeField] private AudioClip ghostsScaredMusic;
     [SerializeField] private AudioClip ghostDeadMusic;
 
-    [Header("SFX Clips")]
     [SerializeField] private AudioClip pacStudentMoveSFX;
     [SerializeField] private AudioClip eatPelletSFX;
     [SerializeField] private AudioClip eatGhostSFX;
@@ -20,7 +18,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip wallCollideSFX;
     [SerializeField] private AudioClip deathSFX;
 
-    [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource movementSource;
@@ -56,11 +53,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        PlayIntroSequence();
-    }
-
     public void PlayIntroSequence()
     {
         if (introTransitionCoroutine != null)
@@ -92,7 +84,6 @@ public class AudioManager : MonoBehaviour
             yield return new WaitForSeconds(3.0f);
         }
 
-        // Switch to ghosts normal state on loop
         PlayGhostsNormalMusic();
     }
 
@@ -126,15 +117,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMovementSFX(bool play)
+    public void PlayMovementSFX(bool play, bool eating = false)
     {
         if (movementSource == null) return;
 
         if (play)
         {
-            if (pacStudentMoveSFX != null && (!movementSource.isPlaying || movementSource.clip != pacStudentMoveSFX))
+            AudioClip targetClip = eating && eatPelletSFX != null ? eatPelletSFX : pacStudentMoveSFX;
+            if (targetClip != null && (!movementSource.isPlaying || movementSource.clip != targetClip))
             {
-                movementSource.clip = pacStudentMoveSFX;
+                movementSource.clip = targetClip;
                 movementSource.loop = true;
                 movementSource.Play();
             }
@@ -185,6 +177,14 @@ public class AudioManager : MonoBehaviour
         if (sfxSource != null && deathSFX != null)
         {
             sfxSource.PlayOneShot(deathSFX);
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
         }
     }
 }
